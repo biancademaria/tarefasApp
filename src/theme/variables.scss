@@ -3,6 +3,14 @@
 
 /** Ionic CSS Variables **/
 :root {
+  /** verdin **/
+  --ion-color-verdin: #00cc8f;
+  --ion-color-verdin-rgb: 0,204,143;
+  --ion-color-verdin-contrast: #000000;
+  --ion-color-verdin-contrast-rgb: 0,0,0;
+  --ion-color-verdin-shade: #00b47e;
+  --ion-color-verdin-tint: #1ad19a;
+  
   /** primary **/
   --ion-color-primary: #3880ff;
   --ion-color-primary-rgb: 56, 128, 255;
@@ -75,7 +83,14 @@
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
 }
-
+.ion-color-verdin {
+  --ion-color-base: var(--ion-color-verdin);
+  --ion-color-base-rgb: var(--ion-color-verdin-rgb);
+  --ion-color-contrast: var(--ion-color-verdin-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-verdin-contrast-rgb);
+  --ion-color-shade: var(--ion-color-verdin-shade);
+  --ion-color-tint: var(--ion-color-verdin-tint);
+}
 @media (prefers-color-scheme: dark) {
   /*
    * Dark Colors
