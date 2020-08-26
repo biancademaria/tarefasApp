@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CpfValidator } from '../validators/cpf-validator';
+import { ComparacaoValidator } from '../validators/comparacao-validator';
 
 @Component({
   selector: 'app-registro',
@@ -14,12 +16,13 @@ export class RegistroPage implements OnInit {
   public mensagens_validacao = {
     nome: [
       { tipo: 'required', mensagem: 'O campo nome é obrigatório!' },
-      { tipo: 'minlength', mensagem: 'O campo nome deve ter pelo menos 3 caracteres! '}
+      { tipo: 'minlength', mensagem: 'O campo nome deve ter pelo menos 3 caracteres! ' }
     ],
     cpf: [
       { tipo: 'required', mensagem: 'O campo CPF é obrigatório!' }, //obrigatorio 
       { tipo: 'minlength', mensagem: 'O campo CPF deve ter pelo menos 11 caracteres!' }, //min 11
-      { tipo: 'maxlength', mensagem: 'O campo CPF deve ter no máximo 14 caracteres!' } //max 14
+      { tipo: 'maxlength', mensagem: 'O campo CPF deve ter no máximo 14 caracteres!' }, //max 14
+      { tipo: 'invalido', mensagem: 'CPF Inválido!' } //cpf invalido
     ],
     nascimento: [
       { tipo: 'required', mensagem: 'O campo data de nascimento é obrigatório!' } //obrigatorio
@@ -40,21 +43,47 @@ export class RegistroPage implements OnInit {
     ],
     confirmarSenha: [
       { tipo: 'required', mensagem: 'O campo confirmar senha é obrigatório!' }, //obrigatório
-      { tipo: 'minlength', mensagem: 'O campo confirmar senha deve ter no mínimo 6 caracteres!' } //min 6
+      { tipo: 'minlength', mensagem: 'O campo confirmar senha deve ter no mínimo 6 caracteres!' }, //min 6
+      { tipo: 'comparacao', mensagem: 'As senhas devem ser iguais!' } //senhas iguais
     ],
   }
 
 
-  constructor(private formBuilder: FormBuilder, private router: Router) { 
+  constructor(private formBuilder: FormBuilder, private router: Router) {
     this.formRegistro = formBuilder.group({
-      nome: ['', Validators.compose([Validators.required, Validators.minLength(3)])], //Nome: [obrigatório, minímo(3)]
-      cpf: ['', Validators.compose([Validators.required, Validators.minLength(11), Validators.maxLength(14)])],//CPF:[obrigatório, minímo(11), máximo(14)]
-      nascimento: ['', Validators.compose([Validators.required])], //Data de Nascimento: [obrigatório]  
-      genero: ['', Validators.compose([Validators.required])], //Genero: [obrigatório]
-      celular: ['', Validators.compose([Validators.maxLength(16)])], //Celular: [máximo(16)]
-      email: ['', Validators.compose([Validators.required, Validators.email])], //E-mail: [obrigatório]
-      senha: ['', Validators.compose([Validators.required, Validators.minLength(6)])], //Senha: [obrigatório, minímo(6)]
-      confirmarSenha: ['', Validators.compose([Validators.required, Validators.minLength(6)])], //Confirma Senha: [obrigatório, minímo(6)]
+      nome: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(3)
+      ])], //Nome: [obrigatório, minímo(3)]
+      cpf: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(11),
+        Validators.maxLength(14),
+        CpfValidator.cpfValido
+      ])],//CPF:[obrigatório, minímo(11), máximo(14)]
+      nascimento: ['', Validators.compose([
+        Validators.required
+      ])], //Data de Nascimento: [obrigatório]  
+      genero: ['', Validators.compose([
+        Validators.required
+      ])], //Genero: [obrigatório]
+      celular: ['', Validators.compose([
+        Validators.maxLength(16)
+      ])], //Celular: [máximo(16)]
+      email: ['', Validators.compose([
+        Validators.required,
+        Validators.email
+      ])], //E-mail: [obrigatório]
+      senha: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(6)
+      ])], //Senha: [obrigatório, minímo(6)]
+      confirmarSenha: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(6)
+      ])], //Confirma Senha: [obrigatório, minímo(6)]
+    }, {
+      validator: ComparacaoValidator('senha', 'confirmarSenha')
     })
   }
 
@@ -62,10 +91,10 @@ export class RegistroPage implements OnInit {
   }
 
   public registro() {
-    if(this.formRegistro.valid){
+    if (this.formRegistro.valid) {
       console.log('Formulário Válido!');
       this.router.navigateByUrl("/login");
-    }else {
+    } else {
       console.log('Formulário inválido.');
     }
   }
