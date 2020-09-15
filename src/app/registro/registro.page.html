@@ -1,7 +1,7 @@
 <ion-content color="verdin" [fullscreen]="true">
 
   <div class="ion-text-center">
-    <img src="assets/etec2.png" alt="Etec">
+      <img src="assets/etec2.png">
   </div>
 
   <ion-item class="ion-text-center ion-button-light">
@@ -41,11 +41,11 @@
 
     <ion-item lines="none">
       <ion-label position="stacked">Data de Nascimento</ion-label>
-      <ion-datetime formControlName="nascimento" displayFormat="DD/MM/YYYY" placeholder="Selecione" cancelText="cancelar" doneText="OK">
+      <ion-datetime formControlName="dataNascimento" displayFormat="DD/MM/YYYY" placeholder="Selecione" cancelText="cancelar" doneText="OK">
       </ion-datetime>
-      <ng-container *ngFor="let erro of mensagens_validacao.nascimento">
+      <ng-container *ngFor="let erro of mensagens_validacao.dataNascimento">
         <span class="msg-erro"
-            *ngIf="formRegistro.get('nascimento').hasError(erro.tipo) && (formRegistro.get('nascimento').dirty || formRegistro.get('nascimento').touched)">
+            *ngIf="formRegistro.get('dataNascimento').hasError(erro.tipo) && (formRegistro.get('dataNascimento').dirty || formRegistro.get('dataNascimento').touched)">
             {{ erro.mensagem }}
         </span>
     </ng-container>

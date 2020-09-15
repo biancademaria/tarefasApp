@@ -6,7 +6,6 @@ import { ComparacaoValidator } from '../validators/comparacao-validator';
 import { UsuariosService } from '../services/usuarios.service';
 import { AlertController } from '@ionic/angular';
 import { Usuario } from '../models/Usuario';
-import * as console from 'console';
 
 @Component({
   selector: 'app-registro',
@@ -28,7 +27,7 @@ export class RegistroPage implements OnInit {
       { tipo: 'maxlength', mensagem: 'O campo CPF deve ter no máximo 14 caracteres!' }, //max 14
       { tipo: 'invalido', mensagem: 'CPF Inválido!' } //cpf invalido
     ],
-    nascimento: [
+    dataNascimento: [
       { tipo: 'required', mensagem: 'O campo data de nascimento é obrigatório!' } //obrigatorio
     ],
     genero: [
@@ -55,7 +54,7 @@ export class RegistroPage implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router,
+    public router: Router,
     private usuariosService: UsuariosService,
     public alertController: AlertController
   ) {
@@ -72,7 +71,7 @@ export class RegistroPage implements OnInit {
         Validators.maxLength(14),
         CpfValidator.cpfValido
       ])],//CPF:[obrigatório, minímo(11), máximo(14)]
-      nascimento: ['', Validators.compose([
+      dataNascimento: ['', Validators.compose([
         Validators.required
       ])], //Data de Nascimento: [obrigatório]  
       genero: ['', Validators.compose([
@@ -95,7 +94,7 @@ export class RegistroPage implements OnInit {
       ])], //Confirma Senha: [obrigatório, minímo(6)]
     }, {
       validator: ComparacaoValidator('senha', 'confirmarSenha')
-    })
+    });
   }
 
   ngOnInit() {
@@ -142,6 +141,8 @@ export class RegistroPage implements OnInit {
       message: mensagem,
       buttons: ['OK']
     });
+
+    await alert.present();
 
   }
 }
