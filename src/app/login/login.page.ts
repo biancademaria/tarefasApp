@@ -48,6 +48,9 @@ export class LoginPage implements OnInit {
       this.router.navigateByUrl('/home');
       this.presentToast();
     }
+    else{
+      this.usuarioService.removerUsuarioLogado();
+    }
   }
 
   public async login() {
