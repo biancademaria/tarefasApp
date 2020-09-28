@@ -64,4 +64,33 @@ export class UsuariosService {
   public async removerUsuarioLogado() {
     return await this.armazenamentoService.removerDados('usuarioLogado');
   }
+
+  public async alterar(usuario: Usuario) { //método de alterar usuário que recebe um certo usuário e vai trabalhar as mudanças desse que foi passado para ele
+    if(!usuario) { //primeiro ele precisa ter certeza de que o usuário é válido;
+      //se o usuário não for válido:
+      return false; //não será possível alterar as informações.
+
+    }
+
+    await this.buscarTodos(); //aguardar a atualização da lista de usuários (porque ela foi alterada)
+
+    //buscar a posição desse usuário dentro do armazenamento no array.
+    //procura dentro da lista de usuários se existe alguém lá cujo e-mail seja igual ao que foi alterado.
+    const index = this.listaUsuarios.findIndex(usuarioArmazenado => {
+      return usuarioArmazenado.email == usuario.email;
+    });
+
+    // para não perder os dados de senha
+    const usuarioTemporario = this.listaUsuarios[index] as Usuario;
+
+    // recuperando a senha que já estava armazenando e colocando nesse usuário que foi alterado.
+    usuario.senha = usuarioTemporario.senha;
+
+    //colocar esse usuário, que já está alterado, de volta à lista de usuários
+    this.listaUsuarios[index] = usuario;
+
+    //o return devolve para o método o resultado de todas essas alterações.
+    return await this.armazenamentoService.salvarDados('usuarios', this.listaUsuarios);
+
+  } 
 }
